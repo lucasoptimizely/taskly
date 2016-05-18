@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Taskly</string>
+    <string name="edit_activity_title">Edit task</string>
+</resources>
