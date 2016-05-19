@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "768483575562",
+    "firebase_url": "https://taskly-1425e.firebaseio.com",
+    "project_id": "taskly-1425e",
+    "storage_bucket": "taskly-1425e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768483575562:android:f5a75ac638e1820b",
+        "android_client_info": {
+          "package_name": "com.noregular.taskly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768483575562-ji1cs7vrv19u4h3k60hl37f3trsltkra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjjxCFthIVdge9_NEdtlymgWxh_j46nXY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ package com.noregular.taskly.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -9,15 +10,17 @@ import android.widget.ListView;
 
 import com.noregular.activities.R;
 import com.noregular.taskly.adapters.EditDeleteListItemAdapter;
+import com.noregular.taskly.models.Task;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> items;
+    ArrayList<Task> items;
     EditDeleteListItemAdapter itemsAdapter;
     ListView lvItems;
 
@@ -27,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.taskly_activity_main);
         lvItems = (ListView) findViewById((R.id.lvlItems));
         items = new ArrayList<>();
-        readItems();
-        itemsAdapter = new EditDeleteListItemAdapter(items, this.getBaseContext());
+        items.add(new Task("Test task", Task.Priority.HIGH));
+        //readItems();
+        Log.v("Init", "Test");
+        itemsAdapter = new EditDeleteListItemAdapter(this, R.layout.taskly_view_list_item, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
     }
@@ -36,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        items.add(itemText);
+        Task task = new Task(itemText, Task.Priority.MEDIUM);
+        items.add(task);
         etNewItem.setText("");
         writeItems();
     }
@@ -60,9 +66,18 @@ public class MainActivity extends AppCompatActivity {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
         try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
+            List<String> lines = FileUtils.readLines(todoFile);
+            items = new ArrayList<Task>();
+            for (int i = 0; i < lines.size(); i++) {
+
+
+
+            }
+
+
+
         } catch (IOException e) {
-            items = new ArrayList<String>();
+            items = new ArrayList<Task>();
         }
     }
 
