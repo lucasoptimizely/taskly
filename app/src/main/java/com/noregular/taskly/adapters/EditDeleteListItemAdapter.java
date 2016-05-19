@@ -9,27 +9,50 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.noregular.activities.R;
-import com.noregular.taskly.activities.EditActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.noregular.taskly.R;
+import com.noregular.taskly.activities.TaskEditActivity;
 import com.noregular.taskly.models.Task;
 
 import java.util.ArrayList;
 
 /**
+ * TODO move all data syncing logic to this class instead of the activity.
  * Created by lswartsenburg on 5/18/16.
  */
 public class EditDeleteListItemAdapter extends ArrayAdapter<Task>  {
     private ArrayList<Task> list = new ArrayList<Task>();
     private Context context;
     private int resource;
+    FirebaseDatabase database;
 
     public EditDeleteListItemAdapter(Context context, int resource, ArrayList<Task> list) {
         super(context, resource, list);
         this.list = list;
-        this. resource = resource;
+        this.resource = resource;
         this.context = context;
+        this.database =  FirebaseDatabase.getInstance();
     }
 
+    public void removeTask(int position){
+        //do something
+        String uid = list.get(position).getUid();
+        list.remove(position); //or some other task
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            DatabaseReference myRef = database.getReference("user").child(user.getUid()).child("tasks").child(uid);;
+            myRef.removeValue();
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void editTask(){
+        //TODO
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -50,16 +73,14 @@ public class EditDeleteListItemAdapter extends ArrayAdapter<Task>  {
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //do something
-                list.remove(position); //or some other task
-                notifyDataSetChanged();
+                removeTask(position);
             }
         });
         editBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(v.getContext(), EditActivity.class);
+                Intent intent = new Intent(v.getContext(), TaskEditActivity.class);
                 v.getContext().startActivity(intent);
                 notifyDataSetChanged();
             }
@@ -67,6 +88,7 @@ public class EditDeleteListItemAdapter extends ArrayAdapter<Task>  {
 
         return view;
     }
+
 }
 
 

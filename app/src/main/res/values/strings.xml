@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Taskly</string>
-    <string name="edit_activity_title">Edit task</string>
+    <string name="activity_title_edit_task">Edit task</string>
+    <string name="activity_title_list_tasks">List tasks</string>
+    <string name="activity_title_create_account">Create user</string>
+    <string name="activity_title_login_account">Create user</string>
+    <string name="login_with_password">Login</string>
+    <string name="create_new_account">Create account</string>
+    <string name="logout">Logout</string>
 </resources>
