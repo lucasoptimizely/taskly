@@ -11,7 +11,7 @@ import java.util.Map;
 public class Task {
 
 
-    private String uid;
+    private String tid;
     private int priority;
     private String title;
 
@@ -22,22 +22,22 @@ public class Task {
     public Task (String key, String title, int priority){
         setPriority(priority);
         setTitle(title);
-        setUid(key);
+        setTid(key);
     }
 
     public static class Priority {
-        public static int LOW = 1;
-        public static int MEDIUM = 2;
-        public static int HIGH = 3;
+        public static final int LOW = 1;
+        public static final int MEDIUM = 2;
+        public static final int HIGH = 3;
     }
 
 
-    public String getUid() {
-        return uid;
+    public String getTid() {
+        return tid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setTid(String tid) {
+        this.tid = tid;
     }
 
 
@@ -66,9 +66,20 @@ public class Task {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", getUid());
+        result.put("tid", getTid());
         result.put("title", getTitle());
         result.put("priority", getPriority());
         return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Task))
+            return false;
+        if (obj == this)
+            return true;
+
+        Task t = (Task) obj;
+        return t.getTid() == this.getTid();
     }
 }

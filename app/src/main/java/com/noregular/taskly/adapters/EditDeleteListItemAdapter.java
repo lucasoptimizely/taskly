@@ -2,6 +2,7 @@ package com.noregular.taskly.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,15 +40,20 @@ public class EditDeleteListItemAdapter extends ArrayAdapter<Task>  {
 
     public void removeTask(int position){
         //do something
-        String uid = list.get(position).getUid();
-        list.remove(position); //or some other task
+        Task task = list.get(position);
+        list.remove(task); //or some other task
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
-            DatabaseReference myRef = database.getReference("user").child(user.getUid()).child("tasks").child(uid);;
+            DatabaseReference myRef = database.getReference("user").child(user.getUid()).child("tasks").child(task.getTid());
             myRef.removeValue();
         }
 
         notifyDataSetChanged();
+    }
+
+    public Task getTaskByPosition(int position){
+        Task task = list.get(position);
+        return task;
     }
 
     public void editTask(){
@@ -81,6 +87,8 @@ public class EditDeleteListItemAdapter extends ArrayAdapter<Task>  {
             public void onClick(View v) {
 
                 Intent intent = new Intent(v.getContext(), TaskEditActivity.class);
+                Log.i("test", "Get task ID: " + getTaskByPosition(position).getTid() );
+                intent.putExtra(TaskEditActivity.TASK_KEY, getTaskByPosition(position).getTid());
                 v.getContext().startActivity(intent);
                 notifyDataSetChanged();
             }

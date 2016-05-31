@@ -60,22 +60,36 @@ public class TaskListActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.w(TAG, "loadPost:onCancelled " + dataSnapshot.getKey());
+                Log.w(TAG, "loadTask:onChildChanged " + dataSnapshot.getKey());
+                Task task = dataSnapshot.getValue(Task.class);
+                Log.d("test", "items.size: " + items.size());
+                for(int i = 0; i < items.size(); i++){
+                    Task t = items.get(i);
+                    if(t.getTid().equals(dataSnapshot.getKey())){
+                        t.setTitle(task.getTitle());
+                        t.setPriority(task.getPriority());
+                    }
+                }
+
+                itemsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Log.w(TAG, "loadPost:onRemoved " + dataSnapshot.getKey());
+                itemsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
                 Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+                itemsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+                itemsAdapter.notifyDataSetChanged();
             }
         };
         FirebaseUser user = checkLoggedInAndRedirect();
